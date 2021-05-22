@@ -1,12 +1,61 @@
 const Todo = require("../models/todo.model")
 
 
+exports.getAllActiveTodos = async (req, res, next) => {
+    try {
+        const todos = await Todo.find()
+
+        const activeTodos = todos.filter((todo) => todo.status === 'active')
+
+        res.status(200).json({
+            success: true,
+            todos: activeTodos
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+exports.getAllCompletedTodos = async (req, res, next) => {
+    try {
+        const todos = await Todo.find()
+
+        const activeTodos = todos.filter((todo) => todo.status === 'completed')
+
+        res.status(200).json({
+            success: true,
+            todos: activeTodos
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+exports.markTodosCompleted = async (req, res, next) => {
+    try {
+
+        const todos = req.body.todos
+
+        todos.map(async (id) => {
+            const todo = await Todo.findOne({_id: id})
+            todo.status = 'completed'
+            await todo.save()
+        })
+
+
+        res.status(200).json({
+            success: true,
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 exports.getAllTodos = async (req, res, next) => {
     try {
         const todos = await Todo.find()
 
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             todos
         })
@@ -33,21 +82,28 @@ exports.createTodo = async (req, res, next) => {
 }
 
 
-exports.deleteOneOrManyTodo = async (req, res, next) => {
+exports.deleteTodo = async (req, res, next) => {
     try { 
         const id = req.params.id
 
-        if (id) {
-            await Todo.deleteOne({_id: id})
-            return res.status(200).json({
-                success: true,
-                msg: 'deleted todo'
-            })
-        }
+        await Todo.deleteOne({_id: id})
+        res.status(200).json({
+            success: true,
+            msg: 'deleted todo'
+        })
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+exports.deleteMultipleTodos = async (req, res, next) => {
+    try { 
         
         const todos = req.body.todos
 
         todos.map(async (id) => {
+            console.log(id)
             await Todo.deleteOne({_id: id})
         })
 

@@ -1,11 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const colors = require('colors');
+const cors = require('cors');
 const router = require('./routes/todo.route');
 
 const app = express()
+
+//! options and variables
 const Port = process.env.PORT || 5000;
 const { mongoURI } = require('./config')
+var corsOptions = {
+  origin: [`http://localhost:8081`],
+  optionsSuccessStatus: 200
+}
 
 //! connecting db
 const connectDb = async () => {
@@ -26,6 +33,7 @@ connectDb()
 
 //! middlewares
 app.use(express.json({ extended: false }))
+app.use(cors(corsOptions));
 
 
 

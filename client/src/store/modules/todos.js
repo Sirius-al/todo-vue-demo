@@ -1,25 +1,45 @@
-// import axios from 'axios';
+import axios from 'axios';
 
 const state = {
-    todos: [
-        {
-            id: 1,
-            title: 'todo One'
-        }, 
-        {
-            id: 1,
-            title: 'todo Two'
-        }
-    ]
+    todos: [],
+    completedTodos: [],
+    activeTodos: []
 };
 
 const getters = {
-    getAllTodos: (state) => state.todos
+    getAllTodos: (state) => state.todos,
+    getAllCompletedTodos: (state) => state.completedTodos,
+    getAllActiveTodos: (state) => state.activeTodos,
 };
 
-const actions = {};
+const actions = {
+    async fetchTodos({ commit }) { 
+        const res = await axios.get('http://localhost:5000/api/todo')
 
-const mutations = {};
+        commit('setTodos', res.data.todos)
+    },
+    async fetchActiveTodos({ commit }) { 
+        const res = await axios.get('http://localhost:5000/api/todo/active')
+
+        commit('setActiveTodos', res.data.todos)
+    },
+    async fetchCompletedTodos({ commit }) { 
+        const res = await axios.get('http://localhost:5000/api/todo/completed')
+
+        commit('setCompletedTodos', res.data.todos)
+    },
+
+    // async updateTodo(context, id, title) { 
+    //     await axios.patch(`http://localhost:5000/api/todo/${id}`, {title})
+    //     // this.fetchTodos()
+    // }
+};
+
+const mutations = {
+    setTodos: (state, todos) => (state.todos = todos),
+    setActiveTodos: (state, todos) => (state.activeTodos = todos),
+    setCompletedTodos: (state, todos) => (state.completedTodos = todos),
+};
 
 export default {
     state,

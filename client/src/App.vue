@@ -2,27 +2,6 @@
     <v-app>
       <v-container class="">
 
-      <!-- <div class="todos">
-        <h3>todos</h3>
-        <div class="todo" v-for="todo in getAllTodos" :key="todo.id">
-          {{ todo.title }}
-        </div>
-      </div> -->
-
-        <!-- <v-row no-gutters flex justify="space-around">
-          <v-col cols="4" >
-            <v-card class="pa-2" outlined tile >
-              column 1
-            </v-card>
-          </v-col>
-          <v-spacer />
-          <v-col cols="4" >
-            <v-card class="pa-2" outlined tile >
-              column 2
-            </v-card>
-          </v-col>
-        </v-row> -->
-
         <v-tabs v-model="tab" align-with-title background-color="indigo accent-2" centered class="tab_bar">
           <v-tabs-slider color="white"></v-tabs-slider>
 
@@ -36,10 +15,10 @@
             <ListAllTodos />
           </v-tab-item>
           <v-tab-item >
-            Active
+            <ActiveTodos />
           </v-tab-item>
           <v-tab-item >
-            Completed
+            <CompletedTodos />
           </v-tab-item>
       </v-tabs-items>
 
@@ -51,14 +30,18 @@
 <script>
 import CreateTodo from './components/CreateTodo';
 import ListAllTodos from './components/ListAllTodos';
+import ActiveTodos from './components/ActiveTodos';
+import CompletedTodos from './components/CompletedTodos';
 
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'App',
   components: {
     CreateTodo,
-    ListAllTodos
+    ListAllTodos,
+    ActiveTodos,
+    CompletedTodos
   },
 
   computed: {
@@ -71,13 +54,19 @@ export default {
     tab: null
   }),
 
+  methods: {
+    ...mapActions([
+      'fetchTodos'
+    ])
+  },
+
+  created() {
+    this.fetchTodos()
+  },
 };
 </script>
 
 <style scoped>
-  body {
-    background-color: rgb(46, 3, 146);
-  }
   .tab {
     color: white !important;
   }
