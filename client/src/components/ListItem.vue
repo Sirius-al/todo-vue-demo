@@ -8,10 +8,23 @@
           </v-list-item-action>
 
           <v-list-item-content>
-            <v-list-item-title v-if="!inputField" :class="{ 'text-decoration-line-through': todo.status === 'completed'}" class="theText" @click="updateTodo">
-                {{todo.title}} <span v-if="todo.status === 'active'"> {{ todo.status }} </span>
+            <v-list-item-title v-if="!inputField" :class="{ 'text-decoration-line-through': todo.status === 'completed'}" class="theText">
+              <h5 @click="updateTodo">{{todo.title}}</h5>
+              <div class="status">
+                <span v-if="todo.status === 'active'" style="margin-right: 2em;"> {{ todo.status }} </span>
+                <div class="color_div"  @click="updateColor">
+                  <select name="colors" id="colors" @change="onSelectChange" class="v_select" v-if="colorUpdate && todo.status === 'active'">
+                    <option value="green">Green</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="yellow">Yellow</option>
+                  </select>
+                  <span :class="todo.color" class="color_span" v-if="colorUpdate === false">{{ todo.color.toUpperCase() }}</span>
+                </div>
+                <span v-if="todo.createdAt"> {{ moment(todo.createdAt).format('hh:mm a') }} </span>
+              </div>
             </v-list-item-title>
-            <v-list-item-title v-if="inputField">
+            <v-list-item-title v-if="inputField && todo.status === 'active'">
                 <v-form @submit="onSubmit">
                   <v-text-field label="create todo" clearable placeholder="ex: need some groceries" @input="onInput" :value="inputtedValue"/>
                 </v-form>
@@ -20,7 +33,7 @@
         </template>
       </v-list-item>
       <div :class="{ 'list_item_bgc' : todo.status === 'completed'}">
-        <v-btn icon color="red" @click="onDeleteTodo">
+        <v-btn icon color="grey" @click="onDeleteTodo">
           <v-icon>mdi-trash-can</v-icon>
         </v-btn>
       </div>
@@ -44,7 +57,9 @@ export default {
   data: () => ({
     Selected: false,
     inputField: false,
-    inputtedValue: ''
+    colorUpdate: false,
+    inputtedValue: '',
+    items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
   }),
   methods: {
     ...mapActions([
@@ -57,7 +72,9 @@ export default {
       this.fetchTodos()
     },
     updateTodo() {
-      this.inputField = true;
+      if (this.todo.status === 'active') {
+        this.inputField = true;
+      }
     },
     onInput(e) {
       this.inputtedValue = e;
@@ -70,10 +87,21 @@ export default {
       this.inputField = false;
 
     },
+    updateColor() {
+      if (this.todo.status === 'active') {
+        this.colorUpdate = true;
+      }
+    },
     async onDeleteTodo() {
       await axios.delete(`http://localhost:5000/api/todo/${this.todo._id}`)
       this.fetchTodos()
     },
+    async onSelectChange(e) {
+      const color = e.target.value
+      await axios.patch(`http://localhost:5000/api/todo/color/${this.todo._id}`, {color})
+      this.colorUpdate = false;
+      this.fetchTodos()
+    }
   },
   created() {
     this.inputtedValue = this.todo.title
@@ -87,6 +115,9 @@ export default {
 <!-- Style Style Style Style Style Style Style Style Style-->
 <!-- Style Style Style Style Style Style Style Style Style-->
 <style scoped>
+* {
+  outline: 0;
+}
 .list_item_grid {
   display: flex;
   align-items: center;
@@ -99,14 +130,61 @@ export default {
 .theText {
     color: rgb(17, 17, 17);
     font-size: 1.2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
-.theText > span {
+.theText h5 { 
+    max-width: 40em;
+    overflow-x: scroll;
+}
+.theText h5::-webkit-scrollbar { 
+  display: none;
+}
+.theText span {
     color: rgb(148, 148, 148);
     font-size: .7rem;
     font-weight: 400;
-    margin-left: 5em;
+    /* margin-left: 5em; */
 }
 .list_item {
   background-color: #e4e4e4;
 }
+.v_select {
+  width: 4em;
+  font-size: .9rem;
+  color: rgb(148, 148, 148);
+  border: none;
+  padding: 3px 5px;
+}
+.status {
+  display: flex;
+  align-items: center;
+}
+.color_div {
+  width: 5em !important;
+  text-align: center !important;
+}
+.red{
+  background-color: rgb(106, 0, 0);
+  color: #ffffff !important;
+  padding: 2px 5px;
+}
+.green{
+  background-color: rgb(0, 97, 3);
+  color: #ffffff !important;
+  padding: 2px 5px;
+}
+.blue{
+  background-color: rgb(0, 15, 100);
+  color: #ffffff !important;
+  padding: 2px 5px;
+}
+.yellow{
+  background-color: rgb(112, 105, 0);
+  color: #ffffff !important;
+  padding: 2px 5px;
+}
+
 </style>

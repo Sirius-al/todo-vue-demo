@@ -6,6 +6,14 @@ const todoSchema = new mongoose.Schema({
         type: String,
         enum: ['active', 'completed'],
         default: 'active'
+    },
+    color: {
+        type: String,
+        default: 'green'
+    },
+    createdAt: {
+        type: String,
+        default: new Date()
     }
 })
 

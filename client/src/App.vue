@@ -9,6 +9,9 @@
           <v-tab class="tab"> Active </v-tab>
           <v-tab class="tab"> Completed </v-tab>
         </v-tabs>
+        <div class="date_and_time">
+          <span>{{ moment(Date.now()).format('dddd, Q MMM') }}</span>
+        </div>
         <v-tabs-items v-model="tab">
           <v-tab-item class="all_todos_tab">
             <CreateTodo />
@@ -57,7 +60,7 @@ export default {
   methods: {
     ...mapActions([
       'fetchTodos'
-    ])
+    ]),
   },
 
   created() {
@@ -72,5 +75,13 @@ export default {
   }
   .tab_bar {
     border-radius: 10px;
+  }
+  .date_and_time {
+    text-align: center;
+    padding: 1em;
+  }
+  .date_and_time > span {
+    font-size: 1.5rem;
+    font-weight: bold;
   }
 </style>

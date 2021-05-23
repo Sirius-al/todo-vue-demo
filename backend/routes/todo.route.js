@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createTodo, deleteTodo, getAllTodos, updateTodo, updateTodoStatus, getAllActiveTodos, getAllCompletedTodos, markTodosCompleted, deleteMultipleTodos } = require('../controllers/todo.controller')
+const { createTodo, deleteTodo, getAllTodos, updateTodo, updateTodoStatus, getAllActiveTodos, getAllCompletedTodos, markTodosCompleted, deleteMultipleTodos, updateTodoColor } = require('../controllers/todo.controller')
 
 router.get('/', getAllTodos)
 
@@ -16,6 +16,8 @@ router.post('/', createTodo)
 router.patch('/:id', updateTodo)
 
 router.patch('/status/:id', updateTodoStatus)
+
+router.patch('/color/:id', updateTodoColor)
 
 router.delete('/:id', deleteTodo)
 

@@ -3,6 +3,9 @@
         <div class="mark_completed">
             <v-btn label="Mark all Completed" @click="markCompleted">Mark All Completed</v-btn>
         </div>
+        <div class="total_items">
+           <h5>{{ getAllActiveTodos.length }} active items left</h5>
+        </div>
         <v-list>
             <ListItem 
                 v-for="todo in getAllActiveTodos" :key="todo._id" 
@@ -55,6 +58,9 @@ import axios from 'axios';
         margin-left: 1em;
         margin-top: 2em;
         margin-bottom: 2em;
+        text-align: center;
+    }
+    .total_items {
         text-align: center;
     }
 </style>

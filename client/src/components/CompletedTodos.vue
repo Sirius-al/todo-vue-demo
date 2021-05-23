@@ -8,6 +8,9 @@
         >Clear Completed</v-btn
       >
     </div>
+    <div class="total_items">
+        <h5>{{ getAllCompletedTodos.length }} completed items</h5>
+    </div>
     <v-list>
       <ListItem
         v-for="todo in getAllCompletedTodos"
@@ -39,7 +42,7 @@ import axios from 'axios';
                 'fetchCompletedTodos'
             ]),
             reRender() {
-                this.fetchCompletedTodos()
+                return this.fetchCompletedTodos()
             },
             async deleteAllCompletedTodos() {
                 const todos = this.getAllCompletedTodos.map(todo => todo._id)

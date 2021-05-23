@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="total_items">
+        <h5>{{ getAllTodos.length }} items</h5>
+    </div>
       <v-list>
         <!-- <v-list-item-group v-model="settings" multiple active-class=""> -->
             <ListItem v-for="todo in getAllTodos" :key="todo._id" :todo="todo" />

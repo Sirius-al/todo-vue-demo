@@ -126,6 +126,7 @@ exports.updateTodo = async (req, res, next) => {
         const todo = await Todo.findOne({_id: id})
 
         todo.title = title
+        todo.createdAt = new Date()
         await todo.save()
 
         res.status(201).json({
@@ -152,6 +153,32 @@ exports.updateTodoStatus = async (req, res, next) => {
         } else {
             todo.status = 'active'
         }
+
+        todo.createdAt = new Date()
+
+        await todo.save()
+
+        res.status(200).json({
+            success: true,
+            todo
+        })
+        
+    } catch (err) {
+        console.log(err)
+    }
+
+}
+
+exports.updateTodoColor = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { color } = req.body;
+
+        const todo = await Todo.findOne({_id: id})
+
+        todo.color = color
+
+        todo.createdAt = new Date()
 
         await todo.save()
 
