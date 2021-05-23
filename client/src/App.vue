@@ -5,12 +5,12 @@
         <v-tabs v-model="tab" align-with-title background-color="indigo accent-2" centered class="tab_bar">
           <v-tabs-slider color="white"></v-tabs-slider>
 
-          <v-tab class="tab"> All todos </v-tab>
-          <v-tab class="tab"> Active </v-tab>
-          <v-tab class="tab"> Completed </v-tab>
+          <v-tab class="tab"> All Tasks </v-tab>
+          <v-tab class="tab"> Active Tasks </v-tab>
+          <v-tab class="tab"> Completed Tasks </v-tab>
         </v-tabs>
         <div class="date_and_time">
-          <span>{{ moment(Date.now()).format('dddd, Q MMM') }}</span>
+          <span>{{ moment(new Date()).format('dddd, Do MMM') }}</span>
         </div>
         <v-tabs-items v-model="tab">
           <v-tab-item class="all_todos_tab">

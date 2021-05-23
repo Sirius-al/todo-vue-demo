@@ -11,15 +11,16 @@
             <v-list-item-title v-if="!inputField" :class="{ 'text-decoration-line-through': todo.status === 'completed'}" class="theText">
               <h5 @click="updateTodo">{{todo.title}}</h5>
               <div class="status">
-                <span v-if="todo.status === 'active'" style="margin-right: 2em;"> {{ todo.status }} </span>
+                <span v-if="todo.status === 'active'"> {{ todo.status }} </span>
                 <div class="color_div"  @click="updateColor">
                   <select name="colors" id="colors" @change="onSelectChange" class="v_select" v-if="colorUpdate && todo.status === 'active'">
+                    <option value="0">select</option>
                     <option value="green">Green</option>
                     <option value="red">Red</option>
                     <option value="blue">Blue</option>
                     <option value="yellow">Yellow</option>
                   </select>
-                  <span :class="todo.color" class="color_span" v-if="colorUpdate === false">{{ todo.color.toUpperCase() }}</span>
+                  <span :class="todo.color" class="color_span" v-if="colorUpdate === false"></span>
                 </div>
                 <span v-if="todo.createdAt"> {{ moment(todo.createdAt).format('hh:mm a') }} </span>
               </div>
@@ -163,28 +164,37 @@ export default {
   align-items: center;
 }
 .color_div {
-  width: 5em !important;
+  width: 9em !important;
   text-align: center !important;
+  margin: 0 .5em;
 }
 .red{
   background-color: rgb(106, 0, 0);
   color: #ffffff !important;
-  padding: 2px 5px;
+  padding: 1px 74px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .green{
   background-color: rgb(0, 97, 3);
   color: #ffffff !important;
-  padding: 2px 5px;
+  padding: 1px 74px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .blue{
   background-color: rgb(0, 15, 100);
   color: #ffffff !important;
-  padding: 2px 5px;
+  padding: 1px 74px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .yellow{
   background-color: rgb(112, 105, 0);
   color: #ffffff !important;
-  padding: 2px 5px;
+  padding: 1px 74px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 </style>

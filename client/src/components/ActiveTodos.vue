@@ -61,6 +61,8 @@ import axios from 'axios';
         text-align: center;
     }
     .total_items {
-        text-align: center;
+        text-align: left;
+        padding-left: 1em;
+        font-size: 1.3rem;
     }
 </style>
