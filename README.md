@@ -1,7 +1,9 @@
 # todo list app
 
 ### Setup
-Open 2 terminals on the project then 
+for this project we will need 2 terminals
+ 
+ **First we will open a terminal on the project **
  
 * change directory to backend `cd backend`,
 * install all npm packages with yarn `yarn install`,
